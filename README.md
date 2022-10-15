@@ -239,7 +239,7 @@ Copy beans of CachedUidGenerator to 'test/resources/uid/cached-uid-spring.xml'.
 ### Step 4: Run UnitTest
 Run [CachedUidGeneratorTest](src/test/java/com/baidu/fsg/uid/CachedUidGeneratorTest.java), shows how to generate / parse UniqueID:
 ```java
-@Resource
+@Autowired
 private UidGenerator uidGenerator;
 
 @Test

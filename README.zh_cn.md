@@ -80,6 +80,36 @@ JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home";
 export JAVA_HOME;
 ```
 
+#### 本地或者公司私服maven依赖此jar包的方式
+```
+1.先下载此项目
+2.改造项目中所有使用javax的部分(防止高版本Jdk或openjdk不支持)
+3.执行打包命令，安装依赖到本地
+mvn clean compile install -DskipTests=true
+4.其他项目引用即可
+
+        <dependency>
+            <groupId>com.baidu.fsg</groupId>
+            <artifactId>uid-generator</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>logback-classic</artifactId>
+                    <groupId>ch.qos.logback</groupId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.mybatis</groupId>
+                    <artifactId>mybatis</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.mybatis</groupId>
+                    <artifactId>mybatis-spring</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+```
+
 ### 步骤2: 创建表WORKER_NODE
 运行sql脚本以导入表WORKER_NODE, 脚本如下:
 ```sql
@@ -227,7 +257,7 @@ PRIMARY KEY(ID)
 ### 步骤4: 运行示例单测
 运行单测[CachedUidGeneratorTest](src/test/java/com/baidu/fsg/uid/CachedUidGeneratorTest.java), 展示UID生成、解析等功能
 ```java
-@Resource
+@Autowired
 private UidGenerator uidGenerator;
 
 @Test
